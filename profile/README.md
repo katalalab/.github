@@ -7,6 +7,9 @@ whether an AI system's output can be relied on, and being able to show the worki
 
 | Repository | What it is |
 | --- | --- |
+| [katala-trust](https://github.com/katalalab/katala-trust) | Verification sidecar for AI agents: score trust, mediate, and fail closed, without owning host memory or execution. |
+| [katala-slm](https://github.com/katalalab/katala-slm) | Rust-first medical-domain small language model with a verification layer over its outputs. |
+| [katala-web-research](https://github.com/katalalab/katala-web-research) | Local-first research CLI — search across providers, snapshot pages, and produce an evidence report that survives review. |
 | [katala-os](https://github.com/katalalab/katala-os) | The operating discipline for running a multi-agent development fleet — constitution, hooks, orchestration, policy. The shape, not one instance of it. |
 
 Further repositories are published as they pass the exposure gate below.
@@ -45,3 +48,7 @@ second pass found a behavioural profile in.
 ## Licence
 
 Per repository. `katala-os` is MIT.
+
+A repository whose subject matter *is* something a scan looks for declares the
+exception in a tracked `.instance-data-allow`, scoped to that one scan. Exemptions
+arrive through a diff someone reads, and the gate prints how many it honoured.
