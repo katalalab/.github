@@ -1,0 +1,65 @@
+name: instance-data gate
+
+# Reusable publish-time gate for every public katalalab repository.
+#
+# Call it from a repo workflow:
+#
+#   jobs:
+#     no-instance-data:
+#       uses: katalalab/.github/.github/workflows/instance-data-gate.yml@main
+#
+# The gate lives in katala-os and is fetched here rather than vendored per repo.
+# A copied gate drifts: the fleet has already shipped a stale spec to five nodes
+# from an SSOT that was edited in one place and never propagated. One canonical
+# file, fetched at a pinned ref, is the only arrangement where fixing a blind spot
+# once fixes it everywhere.
+
+on:
+  workflow_call:
+    inputs:
+      gate-ref:
+        description: >-
+          katala-os ref to fetch the gate from. Pin to a tag or SHA in repos that
+          need the gate frozen; main keeps them on the newest scan classes.
+        type: string
+        default: main
+
+permissions:
+  contents: read
+
+jobs:
+  no-instance-data:
+    name: no instance data
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out calling repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      # Both files land in scripts/ because the gate resolves the tree to scan as
+      # its own parent directory, and its self-test looks for it at that exact
+      # path. Fetching to a scratch directory instead pointed the scan at the
+      # filesystem root, where git grep found no repository and the run reported
+      # clean.
+      - name: Fetch the canonical gate
+        env:
+          GATE_REF: ${{ inputs.gate-ref }}
+        run: |
+          set -euo pipefail
+          mkdir -p scripts
+          base="https://raw.githubusercontent.com/katalalab/katala-os/${GATE_REF}/scripts"
+          for f in check-no-instance-data.sh test-check-no-instance-data.sh; do
+            curl -sSfL "$base/$f" -o "scripts/$f"
+            chmod +x "scripts/$f"
+          done
+
+      # Order matters. The self-test runs first so a gate whose patterns stopped
+      # firing fails as a broken gate, not as a clean tree. A scan that silently
+      # matches nothing is indistinguishable from a scan that found nothing, and
+      # only one of those is good news.
+      - name: Gate self-test (both-direction canaries)
+        run: ./scripts/test-check-no-instance-data.sh
+
+      - name: Reject real hostnames, addresses, home paths and secrets
+        run: ./scripts/check-no-instance-data.sh
