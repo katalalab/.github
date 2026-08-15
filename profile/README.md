@@ -41,6 +41,10 @@ inventories, and dated first-person observations. It ships with canaries in both
 directions, and those run before the scan — a pattern that has stopped matching
 looks exactly like a clean tree otherwise.
 
+A repository whose subject matter *is* something a scan looks for declares the
+exception in a tracked `.instance-data-allow`, scoped to that one scan. Exemptions
+arrive through a diff someone reads, and the gate prints how many it honoured.
+
 An exposure judgement is never made by one reviewer. Two independent engines have to
 agree, because a single pass has already returned "no findings" on a tree that a
 second pass found a behavioural profile in.
@@ -48,7 +52,3 @@ second pass found a behavioural profile in.
 ## Licence
 
 Per repository. `katala-os` is MIT.
-
-A repository whose subject matter *is* something a scan looks for declares the
-exception in a tracked `.instance-data-allow`, scoped to that one scan. Exemptions
-arrive through a diff someone reads, and the gate prints how many it honoured.
