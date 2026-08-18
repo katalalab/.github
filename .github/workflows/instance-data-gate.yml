@@ -50,7 +50,20 @@ jobs:
           mkdir -p scripts
           base="https://raw.githubusercontent.com/katalalab/katala-os/${GATE_REF}/scripts"
           for f in check-no-instance-data.sh test-check-no-instance-data.sh; do
-            curl -sSfL "$base/$f" -o "scripts/$f"
+            # No -L. raw.githubusercontent serves these directly, and following a
+            # redirect would let a changed host decide what this job executes.
+            curl -sSf "$base/$f" -o "scripts/$f"
+            # A truncated or replaced fetch must stop the job, not run as a gate that
+            # happens to find nothing. Both files are shell scripts; anything else means
+            # the fetch did not return what this workflow believes it did.
+            head -1 "scripts/$f" | grep -q '^#!' || {
+              echo "gate fetch did not return a script: $f" >&2
+              exit 1
+            }
+            # Record what ran. gate-ref defaults to a moving branch, so the digest is
+            # the only thing in the log that says which gate this run actually used —
+            # without it, a substitution upstream is invisible after the fact.
+            sha256sum "scripts/$f"
             chmod +x "scripts/$f"
           done
 
