@@ -11,8 +11,27 @@ whether an AI system's output can be relied on, and being able to show the worki
 | [katala-slm](https://github.com/katalalab/katala-slm) | Rust-first medical-domain small language model with a verification layer over its outputs. |
 | [katala-web-research](https://github.com/katalalab/katala-web-research) | Local-first research CLI — search across providers, snapshot pages, and produce an evidence report that survives review. |
 | [katala-os](https://github.com/katalalab/katala-os) | The operating discipline for running a multi-agent development fleet — constitution, hooks, orchestration, policy. The shape, not one instance of it. |
+| [Theorquen](https://github.com/katalalab/Theorquen) | Rust-first typed model, checkpoint, data, and runtime research with fail-closed capability promotion. |
+| [codec-lab](https://github.com/katalalab/codec-lab) | Layer-by-layer codec experiments with round-trip-first comparison data. |
+| [secure-browser-agent](https://github.com/katalalab/secure-browser-agent) | Operator-gated browser automation contracts and compact command safety audits. |
+| [minecraft-coexistence-bench](https://github.com/katalalab/minecraft-coexistence-bench) | Scenario specification for measuring coexistence behavior; currently documentation-only. |
 
 Further repositories are published as they pass the exposure gate below.
+
+## Verified baseline — 2026-08-28
+
+| Repository | Observed local gate |
+| --- | --- |
+| katala-slm | Rust format, check, strict clippy, 56 tests |
+| katala-trust | Typecheck, 149 core tests, 65 gateway tests, 30/30 trust eval |
+| katala-web-research | 128 tests, Ruff, mypy, CLI and research-quality checks |
+| katala-os | 2 manifest artifacts and 10 skills verified |
+| Theorquen | Workspace format, strict clippy, and tests; cross-platform leaf-name regression covered |
+| codec-lab | 11 round-trip tests and identical ratios on 6 nodes; per-node speed remains separate |
+| secure-browser-agent | 466 tests plus strict compact-command and MCP smoke gates |
+| minecraft-coexistence-bench | Documentation only; no executable gate yet |
+
+These are commit-local observations, not release certification or cross-machine performance claims.
 
 ## What is not here
 
