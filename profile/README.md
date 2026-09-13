@@ -8,7 +8,7 @@ katalalabは、AIが生成した判断や出力の検証可能性と実行規律
 
 | 目的 | リポ | 使いどころ | 実装範囲 |
 | :--- | :--- | :--- | :--- |
-| エージェントのツール実行や判断の妥当性を外部から検査したい | [katala-trust](https://github.com/katalalab/katala-trust) | ツール実行前の判定推奨取得、有害入力の検査 | 検証エンジンとエージェント接続アダプタの実装 |
+| エージェントのツール実行や判断の妥当性を外部から検査したい | [katala-trust](https://github.com/katalalab/katala-trust) | ツール実行前の判定推奨取得、入力契約の検査 | 検証エンジンとエージェント接続アダプタの実装 |
 | 回答文にエビデンスや特定の禁忌情報をラベル付けしたい | [katala-slm](https://github.com/katalalab/katala-slm) | 専門回答への根拠情報付与、警告ラベル付与の試作 | 推論APIとキーワードによる禁忌検査の実装（臨床判断用ではない） |
 | Web検索と手元のコードベースを横断して調査ログを整理したい | [katala-web-research](https://github.com/katalalab/katala-web-research) | 調査結果の手元保存、エージェント向け検索インターフェース | CLIおよびMCPサーバーとしての収集・レポート生成機能の実装 |
 | 複数環境や複数エージェントで指示ファイルの改変を検知したい | [katala-os](https://github.com/katalalab/katala-os) | エージェント設定の参照一元化、指示ファイルの変更検知 | 基準ファイルのハッシュ検知と同期スクリプトのひな型仕様 |
