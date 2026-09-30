@@ -1,0 +1,52 @@
+name: Organization review documents
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  review-docs:
+    name: review docs
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Check organization PR template
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path = Path('.github/PULL_REQUEST_TEMPLATE.md')
+          if not path.is_file():
+              raise SystemExit(f'Missing {path}')
+          text = path.read_text()
+          for heading in ('## 目的と対象', '## 差分と確認', '## 安全性とレビュー'):
+              if heading not in text:
+                  raise SystemExit(f'Missing heading: {heading}')
+          if 'commit SHA' not in text or 'AI を使った範囲' not in text:
+              raise SystemExit('Missing verification or AI review prompt')
+          print('Organization PR template is present.')
+          PY
+      - name: Check changed lines
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          BEFORE_SHA: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          if [ "$EVENT_NAME" = pull_request ]; then
+            git diff --check "$BASE_SHA...$HEAD_SHA"
+          elif git cat-file -e "${BEFORE_SHA}^{commit}" 2>/dev/null; then
+            git diff --check "$BEFORE_SHA" HEAD
+          else
+            git diff --check "$(git hash-object -t tree /dev/null)" HEAD
+          fi
