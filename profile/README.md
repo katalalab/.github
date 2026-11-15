@@ -8,12 +8,18 @@ katalalabは、AIが生成した判断や出力の検証可能性と実行規律
 
 | 目的 | リポ | 使いどころ | 実装範囲 |
 | :--- | :--- | :--- | :--- |
-| エージェントのツール実行や判断の妥当性を外部から検査したい | [katala-trust](https://github.com/katalalab/katala-trust) | ツール実行前の判定推奨取得、入力契約の検査 | 検証エンジンとエージェント接続アダプタの実装 |
+| 公式ドキュメントを探索し、引用元と取得日を確認したい | [official-docs-mcp-public](https://github.com/katalalab/official-docs-mcp-public) | 登録済み公式ソースの検索・取得・更新確認 | HTTPSと許可ホストに制限した取得処理、引用用メタデータを返すMCPサーバー |
 | 回答文にエビデンスや特定の禁忌情報をラベル付けしたい | [katala-slm](https://github.com/katalalab/katala-slm) | 専門回答への根拠情報付与、警告ラベル付与の試作 | 推論APIとキーワードによる禁忌検査の実装（臨床判断用ではない） |
 | Web検索と手元のコードベースを横断して調査ログを整理したい | [katala-web-research](https://github.com/katalalab/katala-web-research) | 調査結果の手元保存、エージェント向け検索インターフェース | CLIおよびMCPサーバーとしての収集・レポート生成機能の実装 |
 | 複数環境や複数エージェントで指示ファイルの改変を検知したい | [katala-os](https://github.com/katalalab/katala-os) | エージェント設定の参照一元化、指示ファイルの変更検知 | 基準ファイルのハッシュ検知と同期スクリプトのひな型仕様 |
-| データ圧縮のアルゴリズムを処理層ごとに分解して実験したい | [codec-lab](https://github.com/katalalab/codec-lab) | 各処理層の圧縮効果測定、可逆コーデックの試作 | 処理層モジュールと往復一致テストの実装 |
+| 虹彩画像の符号化や回転を考慮した照合を実験したい | [open-iristrust](https://github.com/katalalab/open-iristrust) | Rustによる画像処理・テンプレート生成・照合 | モデル不要のcoreと任意のONNX推論。本人認証の精度や生体検知は保証しない |
 | 許可ドメインに限定してブラウザ操作の呼び出しを検査したい | [secure-browser-agent](https://github.com/katalalab/secure-browser-agent) | プロファイル分離による巡回、呼び出し先URLの制限 | ポリシー定義とCLI経由のブラウザ起動制御の実装 |
+
+### アーカイブ済みの公開研究
+
+[katala-trust](https://github.com/katalalab/katala-trust)（検証エンジンとエージェント接続アダプタ）と
+[codec-lab](https://github.com/katalalab/codec-lab)（処理層ごとの圧縮実験）は、公開時点の実装と履歴を参照するためのアーカイブです。
+下の過去の検証記録も、その時点のコードに対する結果として残しています。
 
 ### katalalabの原則
 
